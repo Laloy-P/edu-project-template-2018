@@ -2,7 +2,7 @@
   "name": "project",
   "scripts": {
     "start": "NODE_ENV=production node server.js",
-    "startDev": "NODE_ENV=dev node server.js",
+    "startDev": "NODE_ENV=dev nodemon server.js",
     "build": "NODE_ENV=production node_modules/.bin/webpack",
     "watch": "NODE_ENV=dev node_modules/.bin/webpack --watch",
     "testServer": "node tests/test_server.js"
@@ -20,6 +20,7 @@
     "frisby": "^0.8.5",
     "html-webpack-plugin": "^2.26.0",
     "jasmine-node": "^1.14.5",
+    "nodemon": "^1.14.12",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "^3.0.0-beta.1",

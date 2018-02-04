@@ -1,48 +1,75 @@
-var express = require('express');
-var routeur = express.Router();
-var bodyParser = require('body-parser');
-var dal = require('./filesFunction');
+const fs = require('fs')
+const uuid = require('node-uuid')
 
+// GET ONE EPISODE
+exports.findById = (req, res) => {
+  const id = req.params.id
 
-routeur.use(bodyParser.json());
-routeur.use(bodyParser.urlencoded({
-  extended: true
-}));
+  fs.readFile('./src/data/' + id + '.json', 'utf8', (err, data) => {
+    if (err) throw err
 
-routeur.use(function timelog(req, res, next) {
-  console.log('TIME : ', Date.now());
-  next();
-});
+    const episode = JSON.parse(data);
+    res.send(episode)
+  })
+}
 
-//création d'épisodes
-routeur.post('/episodes', function(req, res) {
-  res.send('POST');
+// GET ALL EPISODE SOUCI
+exports.findAll = (req, res) => {
+  fs.readdir('./src/data', (err, files) => {
+    if(err) throw err
 
-  let episode = req.body;
-  dal.createJson("./src/data/", episode);
+    const tab = []
 
-});
+    files.forEach(file => {
+      fs.readFile('./src/data/' + file, 'utf8', (err, data) => {
+        if (err) throw err
 
-//listage des épisodes
-/*routeur.get('/episodes', function(req,res){
-  dal.findAll()
-    .then((episodes) => {
-      res.status(200);
-      res.send(episodes);
-    });
-    .catch((err)=>{res.sendStatus(500);});
-});*/
+        console.log(file);
 
-routeur.get('/episode/:id', function(req, res) {
-  dal.findById(req.params.id)
-    .then((episode) => {
-      res.status(200);
-      res.send(episode);
+      })
     })
-  .catch(err => {
-    res.sendStatus(500).end;
-  });
-})
 
+    res.send(tab)
+  })
+}
 
-module.exports = routeur;
+// CREATE Episode
+exports.create = (req, res) => {
+
+  const episode = {
+    name: req.params.name,
+    score: req.params.score,
+    id: uuid.v4()
+  }
+
+  const location = './src/data/'
+
+  fs.writeFileSync(location + episode.id + '.json', JSON.stringify(episode))
+
+  res.send(episode)
+
+}
+
+// DELETE Episode
+exports.delete = (req, res) => {
+  const file = './src/data/' + req.params.id + '.json'
+
+  fs.unlinkSync(file)
+  res.redirect('/api/episodes')
+
+}
+
+// UPDATE Episode
+exports.update = (req, res) => {
+
+  const episode = {
+    name: req.params.name,
+    score: req.params.score,
+    id: req.params.id
+  }
+
+  const location = './src/data/' + req.params.id
+
+  fs.writeFileSync(location + '.json', JSON.stringify(episode))
+  res.send(episode)
+}
