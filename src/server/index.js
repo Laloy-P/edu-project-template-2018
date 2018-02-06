@@ -14,13 +14,17 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-app.get('/api/episodes', api.findAll)
-app.get('/api/episodes/:id', api.findById)
+app.use('/api/episodes', api);
 
-// a remplacer par post
-app.get('/api/episodes/delete/:id', api.delete)
-app.get('/api/episodes/update/:id/:name/:score', api.update)
-app.get('/api/episodes/create/:name/:score', api.create)
+
+
+// app.get('/api/episodes', api.findAll)
+// app.get('/api/episodes/:id', api.findById)
+//
+// // a remplacer par post
+// app.get('/api/episodes/delete/:id', api.delete)
+// app.get('/api/episodes/update/:id/:name/:score', api.update)
+// app.get('/api/episodes/create/:name/:score', api.create)
 
 
 // LAUNCH THE APP

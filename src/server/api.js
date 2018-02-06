@@ -1,40 +1,48 @@
 const fs = require('fs')
 const uuid = require('node-uuid')
+const express = require('express');
+const router = express.Router();
+const dal = require('./dal.js');
+
+// GET ALL EPISODE
+router.get('/', (req, res) => {
+
+  dal.findAll().then((episodes) => {
+    console.log(episodes);
+    res.send(episodes);
+  }).catch(function (e){
+    console.log(e);
+  });
+});
 
 // GET ONE EPISODE
-exports.findById = (req, res) => {
+router.get('/:id', (req, res) => {
+
   const id = req.params.id
+  dal.findById(id).then((episode) => {
+      console.log(episode);
+      res.send(episode);
+    }).catch(function(e) {
+      console.log(e);
+    });
+  });
 
-  fs.readFile('./src/data/' + id + '.json', 'utf8', (err, data) => {
-    if (err) throw err
 
-    const episode = JSON.parse(data);
-    res.send(episode)
-  })
-}
 
-// GET ALL EPISODE SOUCI
-exports.findAll = (req, res) => {
-  fs.readdir('./src/data', (err, files) => {
-    if(err) throw err
 
-    const tab = []
+//   const id = req.params.id
+//
+//   fs.readFile('./src/data/' + id + '.json', 'utf8', (err, data) => {
+//     if (err) throw err
+//
+//     const episode = JSON.parse(data);
+//     res.send(episode)
+//   })
+// });
 
-    files.forEach(file => {
-      fs.readFile('./src/data/' + file, 'utf8', (err, data) => {
-        if (err) throw err
-
-        console.log(file);
-
-      })
-    })
-
-    res.send(tab)
-  })
-}
 
 // CREATE Episode
-exports.create = (req, res) => {
+router.get('create/:name/:score', (req, res) => {
 
   const episode = {
     name: req.params.name,
@@ -48,19 +56,19 @@ exports.create = (req, res) => {
 
   res.send(episode)
 
-}
+});
 
 // DELETE Episode
-exports.delete = (req, res) => {
+router.get('delete/:id', (req, res) => {
   const file = './src/data/' + req.params.id + '.json'
 
   fs.unlinkSync(file)
   res.redirect('/api/episodes')
 
-}
+});
 
 // UPDATE Episode
-exports.update = (req, res) => {
+router.get('delete/:name/:score/:id', (req, res) => {
 
   const episode = {
     name: req.params.name,
@@ -70,6 +78,8 @@ exports.update = (req, res) => {
 
   const location = './src/data/' + req.params.id
 
-  fs.writeFileSync(location + '.json', JSON.stringify(episode))
-  res.send(episode)
-}
+  fs.writeFileSync(location + '.json', JSON.stringify(episode));
+  res.send(episode);
+});
+
+module.exports = router;
