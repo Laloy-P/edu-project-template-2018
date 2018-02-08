@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs');
+const uuid = require('node-uuid');
 
 module.exports = {
 
@@ -24,21 +25,46 @@ module.exports = {
     findById: function(id){
 
       return new Promise((resolve, reject)=>{
-
           return (fs.readFile('./src/data/' + id + '.json', 'utf8', (err, data) => {
             if (err) {
               reject(err);
               return;
             }
           const episode = JSON.parse(data);
+          resolve (episode);
         }));
+       });
+    },
 
+    deleteById : function(id){
+      return new Promise((resolve, reject)=>{
+            const file = './src/data/' + id + '.json';
+            fs.unlinkSync(file);
+            resolve("sucess");
+          });
 
+      },
 
-      }).then((episode) =>{
-        resolve(episode);
-      });
-    }
+      // addEpisode : function(name,num,score){
+      //   //le faire en passant avec le body
+      //   return new Promise((resolve, reject)=>{
+      //     const id = uuid.v4();
+      //     const episode = {
+      //       Serie : this.name,
+      //       Episode : this.num,
+      //       Note : this.score,
+      //       id: this.id
+      //     };
+      //     const location = './src/data/';
+      //     fs.writeFileSync(location + id + '.json', JSON.stringify(episode));
+      //     if (err) {
+      //       reject(err);
+      //       return;
+      //     }
+      //     resolve('sucess');
+      //   })
+      // }
+
 }
 
 

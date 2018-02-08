@@ -27,45 +27,51 @@ router.get('/:id', (req, res) => {
     });
   });
 
+  // DELETE ONE EPISODE
+  router.delete('/:id', (req, res) => {
+
+    const id = req.params.id;
+    dal.deleteById(id);
+    res.redirect('/api/episodes');
+  });
+
+  //ADD ONE EPISODE
+  //faire en post avec req.body
+  router.get('/create/:name/:num/:score', (req, res) => {
+    const name = req.params.name;
+    const num = req.params.num;
+    const score = req.params.score;
+    dal.addEpisode(name,num,score);
+  });
 
 
-
-//   const id = req.params.id
-//
-//   fs.readFile('./src/data/' + id + '.json', 'utf8', (err, data) => {
-//     if (err) throw err
-//
-//     const episode = JSON.parse(data);
-//     res.send(episode)
-//   })
-// });
 
 
 // CREATE Episode
-router.get('create/:name/:score', (req, res) => {
-
-  const episode = {
-    name: req.params.name,
-    score: req.params.score,
-    id: uuid.v4()
-  }
-
-  const location = './src/data/'
-
-  fs.writeFileSync(location + episode.id + '.json', JSON.stringify(episode))
-
-  res.send(episode)
-
-});
+// router.get('create/:name/:num/:score', (req, res) => {
+//
+//   const episode = {
+//     name: req.params.name,
+//     score: req.params.score,
+//     id: uuid.v4()
+//   }
+//
+//   const location = './src/data/'
+//
+//   fs.writeFileSync(location + episode.id + '.json', JSON.stringify(episode))
+//
+//   res.send(episode)
+//
+// });
 
 // DELETE Episode
-router.get('delete/:id', (req, res) => {
-  const file = './src/data/' + req.params.id + '.json'
-
-  fs.unlinkSync(file)
-  res.redirect('/api/episodes')
-
-});
+// router.get('delete/:id', (req, res) => {
+//   const file = './src/data/' + req.params.id + '.json'
+//
+//   fs.unlinkSync(file)
+//   res.redirect('/api/episodes')
+//
+// });
 
 // UPDATE Episode
 router.get('delete/:name/:score/:id', (req, res) => {
