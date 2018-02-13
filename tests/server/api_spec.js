@@ -2,19 +2,16 @@ const fs = require('fs');
 const frisby = require('frisby');
 const path = require('path');
 const Joi = frisby.Joi;
-//const dal = require('../../src/server/dal');
+const dal = require('../../src/server/dal.js');
+const config = require('../../src/server/config');
 
 const URL = `http://localhost:${process.env.SERVER_PORT}/api/episodes`;
-const DATA_DIR = process.env.DATA;
+const DATA_DIR = config.data;
 
 function createFakeEpisode(done) {
   Promise.all([
-    dal.insert(
-      {id: "1111-2222", name: "Breaking Bad", code: "S01E01", score: 8}
-    ),
-    dal.insert(
-      {id: "1111-3333", name: "Lethal Weapon", code: "S01E01", score: 7}
-    )
+    dal.addEpisode({"Serie":"Blindspot","Episode":"S03E02","Note":5,"id":"a5e1feef-7662-475a-bf4a-7bf494744fa9"}),
+    dal.addEpisode({"Serie":"spot","Episode":"S03E02","Note":6,"id":"a5e1feef-7662-54585a-bf4a-7bf494744fa9"})
   ]).then(() => {
     done();
   });
@@ -42,16 +39,16 @@ describe('Add an episode', () => {
   let id;
   it('should make an http request', (done) => {
     frisby.post(`${URL}/`, {
-        name: "Blindspot",
-        code: "S03E02",
-        score: 5
+        Serie: "Blindspot",
+        Episode: "S03E02",
+        Note: 5
       })
-      .expect('status', 201)
-      .expect('jsonTypes', {
+    .expect('status', 201)
+     .expect('jsonTypes', {
         'id': Joi.string().required(),
-        'name': Joi.string().required(),
-        'code': Joi.string().required(),
-        'score': Joi.number().required()
+        'Serie': Joi.string().required(),
+        'Episode': Joi.string().required(),
+        'Note': Joi.number().required()
       }).then((res) => {
         id = res.body.id;
       })
@@ -67,3 +64,33 @@ describe('Add an episode', () => {
       });
   });
 });
+
+describe('Find all episodes', () => {
+  it('should make an http request', (done) => {
+    createFakeEpisode(done);
+    frisby.get(`${URL}`)
+    .expect('status', 200)
+      .done(done);
+      deleteFakeEpisode(done);
+  });
+  });
+
+  describe('Find one episode by ID', () => {
+    it('should make an http request', (done) => {
+      createFakeEpisode(done);
+      frisby.get(`${URL}/a5e1feef-7662-475a-bf4a-7bf494744fa9`)
+      .expect('status', 200)
+        .done(done);
+        deleteFakeEpisode(done);
+    });
+    });
+
+    describe('Delete episode', () => {
+      it('should make an http request', (done) => {
+        createFakeEpisode(done);
+        frisby.del(`${URL}/a5e1feef-7662-475a-bf4a-7bf494744fa9`)
+        .expect('status', 204)
+          .done(done);
+          deleteFakeEpisode(done);
+      });
+      });

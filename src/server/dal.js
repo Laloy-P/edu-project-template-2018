@@ -1,11 +1,12 @@
 const fs = require('fs');
 const uuid = require('node-uuid');
+const config = require('./config');
 
 module.exports = {
 
     findAll: function() {
       return new Promise((resolve, reject) => {
-        fs.readdir('./src/data', (err, files) => {
+        fs.readdir(config.data +'/', (err, files) => {
           if (err) {
             reject(err);
             return;
@@ -25,7 +26,7 @@ module.exports = {
     findById: function(id){
 
       return new Promise((resolve, reject)=>{
-          return (fs.readFile('./src/data/' + id + '.json', 'utf8', (err, data) => {
+          return (fs.readFile(config.data+'/' + id + '.json', 'utf8', (err, data) => {
             if (err) {
               reject(err);
               return;
@@ -38,7 +39,7 @@ module.exports = {
 
     deleteById : function(id){
       return new Promise((resolve, reject)=>{
-            const file = './src/data/' + id + '.json';
+            const file = config.data+'/' + id + '.json';
             fs.unlinkSync(file);
             resolve("sucess");
           });
@@ -46,18 +47,15 @@ module.exports = {
       },
 
       //ajouter un épisode
-      addEpisode : function(name,num,score){
+      addEpisode : function(episode){
         return new Promise((resolve, reject)=>{
-          const id = uuid.v4();
-          const episode = {
-            Serie : name,
-            Episode : num,
-            Note : score,
-            id: id
-          }
-          const location = './src/data/';
-          fs.writeFile(location + id + '.json', JSON.stringify(episode),()=>{
-            resolve('sucess');
+          const location = config.data;
+          fs.writeFile(config.data +'/' + episode.id + '.json', JSON.stringify(episode),(err) => {
+            if (err) {
+              resolve(err);
+              return;
+            }
+            resolve(episode);
           });
         });
       }
@@ -67,7 +65,7 @@ module.exports = {
 
 function readFile(file) {
   return new Promise((resolve, reject) => {
-    fs.readFile('./src/data/' + file, 'utf-8', (err, data) => {
+    fs.readFile(config.data+'/' + file, 'utf-8', (err, data) => {
 
       console.log(data);
       if (file != ".gitkeep") {

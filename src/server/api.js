@@ -37,11 +37,15 @@ router.get('/:id', (req, res) => {
 
   //ADD ONE EPISODE
   router.post('/', (req, res) => {
-    const name = req.body.name;
-    const num = req.body.num;
-    const score = req.body.score;
-    dal.addEpisode(name,num,score);
-    res.redirect('/api/episodes');
+    const episode = req.body;
+    episode.id = uuid.v4();
+    dal.addEpisode(episode).then((episode) => {
+        res.status(201);
+        res.send(episode)
+    }).catch((err) => {
+      res.status(500);
+      res.send(err.message);
+    });
   });
 
 
