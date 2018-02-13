@@ -45,25 +45,22 @@ module.exports = {
 
       },
 
-      // addEpisode : function(name,num,score){
-      //   //le faire en passant avec le body
-      //   return new Promise((resolve, reject)=>{
-      //     const id = uuid.v4();
-      //     const episode = {
-      //       Serie : this.name,
-      //       Episode : this.num,
-      //       Note : this.score,
-      //       id: this.id
-      //     };
-      //     const location = './src/data/';
-      //     fs.writeFileSync(location + id + '.json', JSON.stringify(episode));
-      //     if (err) {
-      //       reject(err);
-      //       return;
-      //     }
-      //     resolve('sucess');
-      //   })
-      // }
+      //ajouter un épisode
+      addEpisode : function(name,num,score){
+        return new Promise((resolve, reject)=>{
+          const id = uuid.v4();
+          const episode = {
+            Serie : name,
+            Episode : num,
+            Note : score,
+            id: id
+          }
+          const location = './src/data/';
+          fs.writeFile(location + id + '.json', JSON.stringify(episode),()=>{
+            resolve('sucess');
+          });
+        });
+      }
 
 }
 
