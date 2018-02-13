@@ -7,11 +7,18 @@ import {
 import { Provider } from 'react-redux';
 import configure from './store';
 
+
 const store = configure();
 
-class Yolo extends Component {
+class TableauEpisodes extends Component {
+
     render() {
-        return(<h1>Hello World  !!</h1>);
+        return(
+        <table>
+          <tr>
+            <td>Série</td><td>Numéro episode</td><td>Score</td>
+          </tr>
+        </table>);
     }
 };
 
@@ -27,10 +34,7 @@ export default class App extends Component {
             <Provider store={store}>
                 <Router>
                   <div>
-                    <Route path="/" component={Yolo}>
-                    </Route>
-                    <Route path="/new" component={Swag}>
-                    </Route>
+                    <Route path="/" component={TableauEpisodes}></Route>
                   </div>
                 </Router>
             </Provider>
