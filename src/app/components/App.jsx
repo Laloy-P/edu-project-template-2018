@@ -10,6 +10,29 @@ import configure from './store';
 
 const store = configure();
 
+//piste et aide pour fetch
+//cette vidéo est les suivantes : https://www.youtube.com/watch?v=VwiZBveJhq4
+// const findAll = new Request('http:localhost:3000/api/episodes',
+// {
+//   headers: new Headers({
+//     'Episode' : 'application/json'
+//   })
+// })
+//
+// fetch(findAll,{
+//   mode :'no-cors',
+//   method: 'GET'
+// }).then(function(response){
+//   return response.json();
+// }).then(function(j){
+//   console.log(j)
+// }).catch(function(err){
+//   console.log(err);
+// });
+
+
+
+//Components
 class EpisodeComponent extends Component {
 
     render() {
@@ -31,7 +54,7 @@ class EpisodeListComponent extends Component {
           <th>Season</th>
           <th>Episode</th>
         </tr>
-        <Route path="/" component={EpisodeItemComponent}></Route> 
+        <Route path="/" component={EpisodeItemComponent}></Route>
         <Route path="/" component={EpisodeItemComponent}></Route>
       </table>
       );
@@ -39,7 +62,6 @@ class EpisodeListComponent extends Component {
 };
 
 class EpisodeItemComponent extends Component { //un composant par ligne
-
     render() {
 
       return(
@@ -48,7 +70,7 @@ class EpisodeItemComponent extends Component { //un composant par ligne
     }
 };
 
-class EpisodeFormComponent extends Component { //un composant par ligne
+class EpisodeFormComponent extends Component {
 
     render() {
 
