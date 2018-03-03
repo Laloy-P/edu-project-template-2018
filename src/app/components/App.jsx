@@ -6,85 +6,46 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configure from './store';
+import ListEpisodes from './ListEpisodes';
+import AddFileForm from './AddFileForm';
+import Header from './Header';
+import BoxInfo from './BoxInfo';
+import Footer from './Footer';
+import './../style/Style.css';
 
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configure();
 
-//piste et aide pour fetch
-//cette vidéo est les suivantes : https://www.youtube.com/watch?v=VwiZBveJhq4
-// const findAll = new Request('http:localhost:3000/api/episodes',
-// {
-//   headers: new Headers({
-//     'Episode' : 'application/json'
-//   })
-// })
-//
-// fetch(findAll,{
-//   mode :'no-cors',
-//   method: 'GET'
-// }).then(function(response){
-//   return response.json();
-// }).then(function(j){
-//   console.log(j)
-// }).catch(function(err){
-//   console.log(err);
-// });
-
-
-
-//Components
-class EpisodeComponent extends Component {
+class MainPage extends Component {
 
     render() {
+      const episodeAdded = (episode) => {
+          this.listCpt.addEpisode(episode);
+      };
+
+      const showMsg = (info) => {
+          this.info.showMessage(
+            {
+              message:info.message.message,
+              type: info.result
+            }
+          );
+      };
+
         return(
-        <div className="EpisodeComponent">
-          <Route path="/" component={EpisodeListComponent}></Route>
-          <Route path="/" component={EpisodeFormComponent}></Route></div>);
-    }
-};
-
-
-class EpisodeListComponent extends Component {
-
-    render() {
-        return(
-        <table><tr>
-          <th>Id</th>
-          <th>Serie</th>
-          <th>Season</th>
-          <th>Episode</th>
-        </tr>
-        <Route path="/" component={EpisodeItemComponent}></Route>
-        <Route path="/" component={EpisodeItemComponent}></Route>
-      </table>
-      );
-    }
-};
-
-class EpisodeItemComponent extends Component { //un composant par ligne
-    render() {
-
-      return(
-        <tr><td>5454</td><td>Lucifer</td><td>1</td><td>2</td></tr>
-      )
-    }
-};
-
-class EpisodeFormComponent extends Component {
-
-    render() {
-
-      return(
-        <form>
-          <label for="serie">Serie</label>
-          <input type="text" id="serie"/>
-          <label for="season">Season</label>
-          <input type="number" id="season"/>
-          <label for="episode">Episode</label>
-          <input type="number" id="episode"/>
-          <input type="submit"/>
-        </form>
-      )
+          <div className="container">
+            <BoxInfo ref={errorCpt => { this.info = errorCpt; }}/>
+            <div className="row">
+              <div className="col">
+                <ListEpisodes infoOccured={showMsg} ref={list => { this.listCpt = list; }}/>
+              </div>
+              <div className="col col-lg-2">
+                  <AddFileForm infoOccured={showMsg}  addEpisode={episodeAdded}/>
+              </div>
+            </div>
+          </div>
+        );
     }
 };
 
@@ -94,7 +55,9 @@ export default class App extends Component {
             <Provider store={store}>
                 <Router>
                   <div>
-                    <Route path="/" component={EpisodeComponent}></Route>
+                    <Header />
+                    <Route exact path="/" component={MainPage}/>
+                    <Footer />
                   </div>
                 </Router>
             </Provider>
