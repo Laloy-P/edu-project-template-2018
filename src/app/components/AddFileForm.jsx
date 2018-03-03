@@ -42,7 +42,7 @@ class AddFileForm extends Component {
 
     handleInputChange(event){
       let target = event.target;
-      let Serie = target.Serie;
+      let name = target.name;
       let value = target.value;
 
       this.setState({
