@@ -8,43 +8,19 @@ import { Provider } from 'react-redux';
 import configure from './store';
 
 class TabItems extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        episode : props.crtEpisode,
-      };
-    }
+  constructor(props) { super(props); }
 
-    deleteEpisode(id){
-      fetch('/api/episodes/'+id, {
-        method: 'DELETE',
-      }).then(result => {
-        result.json().then((res) => {
-            //console.log(res);
-            if(res.result == 'success'){
-              this.props.removeEpisode(res.message.data);
-            }
-            this.props.informationEpisode(res);
-        })
-      })
-    }
-
-    render() {
-        return(
-          <tbody>
-            <tr key={this.state.episode.id}>
-              <td className="id">{this.state.episode.id}</td>
-              <td>{this.state.episode.Serie}</td>
-              <td>{this.state.episode.Episode}</td>
-              <td>{this.state.episode.Note}</td>
-              <td>
-                <button style={{marginLeft:'8px'}} className="btn btn-info" onClick={() => {this.deleteEpisode(this.state.episode.id)}} >Delete</button>
-                <a style={{marginLeft:'8px'}} className="btn btn-info" href={"/" + this.state.episode.id} role="button">Detail</a>
-              </td>
-            </tr>
-          </tbody>
-        );
-    }
-};
+  render() {
+      return(
+          <section>
+              <div>
+                  <div>{this.props.episode.Serie}</div>
+                  <div >{this.props.episode.Episode}</div>
+                  <div>{this.props.episode.Note}</div>
+              </div>
+          </section>
+      );
+  }
+  }
 
 export default TabItems;

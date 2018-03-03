@@ -12,55 +12,60 @@ import BoxInfo from './BoxInfo'
 
 class ListEpisodes extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      datas : [],
-    };
+  constructor(props){
+         super(props);
 
-    this.addEpisode = this.addEpisode.bind(this);
-  }
+         this.state = {
+             episodes: []
+         };
+     }
 
-  addEpisode(episode) {
-    let newDatas = this.state.datas.slice();
-    newDatas.push(episode);
-    this.setState({datas:newDatas});
-  }
+     componentDidMount() {
+         fetch('/api/episodes', {
+             method: 'GET',
+             headers: {
+                 'Accept': 'application/json',
+                 'Content-Type': 'application/json',
+             }
+         })
+             .then((response) => {
+                 if (response.status >= 400) {
+                     throw new Error("Bad response from server");
+                 }
+                 return response.json();
+             })
+             .then((datas) => {
+                 this.setState({ episodes: datas });
+             })
+             .catch((error) => {
+                 console.error(error);
+             });
+     }
 
-  componentDidMount(){
-    fetch('/api/episodes', {
-      method: 'GET',
-    }).then(result => {
-      return result.json();
-    }).then(data => {
-      let datas = data.message;
-      let listEp = [];
-      datas.forEach((elt) => listEp.push(elt.data));
-      this.setState({datas:listEp});
-    })
-  }
-    render() {
-      const episodeRemoved = (episode) => {
-          let newData = this.state.datas.slice();
-          newData = newData.filter(e => e.id !== episode.id)
-          this.setState({datas:newData});
-      };
+     render() {
+         let episodes = this.state.episodes;
+         return(
+             <section className="post margin-20">
+                 <div className="post-Title"><a>Series</a></div>
 
-      const infoEpisode = (information) => {
-        this.props.infoOccured(information);
-      };
+                 <div className="post-content">
+                     <div className="marginLeft-20 marginRight-20">
+                         <div className="divInline divSize-30">Nom</div>
+                         <div className="divInline divSize-20">Code</div>
+                         <div className="divInline divSize-20">Note</div>
+                     </div>
 
-        return(
-          <div>
-            <table className="table table-striped">
-              <TabHeader />
-              {this.state.datas.map(function(ep, index){
-                    return <TabItems informationEpisode={infoEpisode} removeEpisode={episodeRemoved} key={ep.id} crtEpisode={ep}/>;
-              })}
-            </table>
-          </div>
-        );
-    }
-};
+                     <hr className="style-blue" />
+
+                     <div className="list-400 scrollVertical">
+                         {episodes.map(episode =>
+                             <TabItems episode={episode}/>
+                         )}
+                     </div>
+                 </div>
+             </section>
+         );
+     }
+ }
 
 export default ListEpisodes;
