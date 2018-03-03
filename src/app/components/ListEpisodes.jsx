@@ -45,19 +45,18 @@ class ListEpisodes extends Component {
      render() {
          let episodes = this.state.episodes;
          return(
-             <section className="post margin-20">
-                 <div className="post-Title"><a>Series</a></div>
+             <section>
+                 <div><a>Series</a></div>
 
-                 <div className="post-content">
-                     <div className="marginLeft-20 marginRight-20">
-                         <div className="divInline divSize-30">Nom</div>
-                         <div className="divInline divSize-20">Code</div>
-                         <div className="divInline divSize-20">Note</div>
+                 <div>
+                     <div>
+                         <div>Nom</div>
+                         <div>Code</div>
+                         <div>Note</div>
                      </div>
 
-                     <hr className="style-blue" />
 
-                     <div className="list-400 scrollVertical">
+                     <div>
                          {episodes.map(episode =>
                              <TabItems episode={episode}/>
                          )}

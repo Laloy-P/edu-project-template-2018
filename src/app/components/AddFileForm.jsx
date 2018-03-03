@@ -53,19 +53,19 @@ class AddFileForm extends Component {
       render() {
           return(
             <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
+              <div>
                 <label>Serie:</label>
-                <input name="Serie" type="text" className="form-control" placeholder="Name" onChange={this.handleInputChange}/>
+                <input name="Serie" type="text" placeholder="Name" onChange={this.handleInputChange}/>
               </div>
-              <div className="form-group">
+              <div>
                 <label>Code:</label>
-                <input type="text" name="Episode" className="form-control"  placeholder="Code" onChange={this.handleInputChange}/>
+                <input type="text" name="Episode"  placeholder="Code" onChange={this.handleInputChange}/>
               </div>
-              <div className="form-group">
+              <div>
                 <label>Note:</label>
-                <input type="text" name="Note" className="form-control"  placeholder="Score" onChange={this.handleInputChange}/>
+                <input type="text" name="Note"  placeholder="Score" onChange={this.handleInputChange}/>
               </div>
-              <button type="submit" className="btn btn-info" >Submit</button>
+              <button type="submit" >Submit</button>
             </form>
           );
       }
