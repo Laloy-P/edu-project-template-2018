@@ -74,6 +74,7 @@ class ListEpisodes extends Component {
                   <th>Nom</th>
                   <th>Episode</th>
                   <th>Note</th>
+                  <th>Action</th>
                 </tr>
                   { episodes.map ( episode =>
                     <TabItems episode = {episode}/>

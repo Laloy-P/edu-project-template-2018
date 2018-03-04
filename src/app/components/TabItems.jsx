@@ -15,6 +15,18 @@ const tableElement = {
 class TabItems extends Component {
   constructor(props) { super(props); }
 
+    deleteEpisode(id){
+          fetch('/api/episodes/'+id, {
+            method: 'DELETE',
+          }).then(result => {
+            result.json().then((res) => {
+                console.log(res);
+                // if(res.result == 'success'){
+                //   this.props.removeEpisode(res.message.data);
+                // }
+            })
+          })
+    }
   render() {
       return(
 
@@ -22,8 +34,11 @@ class TabItems extends Component {
                 <td>{this.props.episode.Serie}</td>
                 <td>{this.props.episode.Episode}</td>
                 <td>{this.props.episode.Note}</td>
+                <td>
+                   <button onClick={() => {this.deleteEpisode(this.props.episode.id)}}>Supprimer</button>
+                </td>
             </tr>
-            
+
       );
   }
   }
