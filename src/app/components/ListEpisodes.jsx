@@ -10,6 +10,28 @@ import TabHeader from './TabHeader';
 import TabItems from './TabItems';
 import BoxInfo from './BoxInfo'
 
+const globalStyle = {
+  fontFamily:'arial',
+  color: '#333',
+  margin: '40px',
+  padding:'40px',
+  textAlign: 'center',
+}
+const serieTitle = {
+  fontWeight : '300',
+  fontSize : '18px',
+  backgroundColor: '#4080FF',
+  padding:'16px',
+  marginBottom:'0px',
+  boxShadow: '0px -5px 10px #aaa',
+  color:'white'
+}
+const serieTable = {
+  width : '100%',
+  backgroundColor:'white',
+  boxShadow: '0px 5px 10px #aaa',
+}
+
 class ListEpisodes extends Component {
 
   constructor(props){
@@ -45,23 +67,18 @@ class ListEpisodes extends Component {
      render() {
          let episodes = this.state.episodes;
          return(
-             <section>
-                 <div><a>Series</a></div>
-
-                 <div>
-                     <div>
-                         <div>Nom</div>
-                         <div>Code</div>
-                         <div>Note</div>
-                     </div>
-
-
-                     <div>
-                         {episodes.map(episode =>
-                             <TabItems episode={episode}/>
-                         )}
-                     </div>
-                 </div>
+            <section style = {globalStyle}>
+              <h2 style = {serieTitle} >Series</h2>
+              <table style = {serieTable}>
+                <tr>
+                  <th>Nom</th>
+                  <th>Episode</th>
+                  <th>Note</th>
+                </tr>
+                  { episodes.map ( episode =>
+                    <TabItems episode = {episode}/>
+                  )}
+              </table>
              </section>
          );
      }

@@ -16,7 +16,9 @@ import './../style/Style.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configure();
-
+const global = {
+  bacgroundColor:'#F1F1F1',
+}
 class MainPage extends Component {
 
     render() {
@@ -34,15 +36,17 @@ class MainPage extends Component {
       };
 
         return(
-          <div className="container">
+          <div style = {global}>
             <BoxInfo ref={errorCpt => { this.info = errorCpt; }}/>
             <div className="row">
+            <div className="col col-lg-2">
+                <AddFileForm infoOccured={showMsg}  addEpisode={episodeAdded}/>
+            </div>
+
               <div className="col">
                 <ListEpisodes infoOccured={showMsg} ref={list => { this.listCpt = list; }}/>
               </div>
-              <div className="col col-lg-2">
-                  <AddFileForm infoOccured={showMsg}  addEpisode={episodeAdded}/>
-              </div>
+
             </div>
           </div>
         );

@@ -7,10 +7,17 @@ import {
 import { Provider } from 'react-redux';
 import configure from './store';
 
+const headerTitle ={
+  fontFamily : 'arial',
+  fontWeight : '300',
+  textAlign : 'center',
+  color:'#333',
+}
+
 class Header extends Component {
     render() {
         return(
-            <h1>Gestion des séries</h1>
+            <h1 style = {headerTitle}>Gestion des séries</h1>
         );
     }
 };
